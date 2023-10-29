@@ -1,0 +1,2 @@
+IdEntrega,IdPedido,PontoControle,IdUnidadeNegocio,Aplicabilidade,idFormaPagamento,idTipoEntrega,tipoVenda
+<id_entrega>,<id_pedido>,<ponto_controle>,<unidade_negocio>,<aplicabilidade>,<id_forma_pagamento>,<id_tipo_entrega>,<tipo_venda>

@@ -1,0 +1,11 @@
+name: 'Run tests'
+description: 'Run tests'
+inputs:
+  tags:
+    description: 'Suítes de teste que podem ser executadas (@regression_test).'
+    required: true
+    default: '@regression_test'
+runs:
+  using: 'docker'
+  image: '../../../Dockerfile'
+  entrypoint: '/entrypoint.sh'

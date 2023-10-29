@@ -1,0 +1,39 @@
+on: 
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Suítes de teste que podem ser executadas (@smoke).'
+        required: true
+        default: '@regression_test'  
+  pull_request:
+    branches: [ master, develop ]
+
+name: Running Tests
+
+jobs:
+  deploy:
+    name: Testes E2E
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ./.github/actions/tests
+        env:
+          DEFAULT_TAGS: "@regression_test"
+        with:
+          tags: ${{ github.event.inputs.tags || env.DEFAULT_TAGS }}
+
+      - name: Generate Allure Report
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        with:
+          allure_results: allure-results
+          allure_history: allure-history      
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
